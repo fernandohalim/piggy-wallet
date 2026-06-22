@@ -12,7 +12,7 @@ export default function ExpensesPage() {
     <main className="min-h-dvh max-w-md sm:max-w-lg mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-6">
       <header>
         <h1 className="text-2xl font-semibold">Expenses</h1>
-        <p className="text-sm text-muted">Every rupiah, grouped by day.</p>
+        <p className="text-sm text-muted">Every record, grouped by day.</p>
       </header>
 
       <ExpenseList onEdit={setEditing} />

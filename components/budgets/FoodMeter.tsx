@@ -1,6 +1,7 @@
 "use client";
 import { formatIDR } from "@/lib/format";
 import type { FoodMeter as FoodMeterData } from "@/lib/food";
+import { FoodIcon } from "../ui/Icons";
 
 export function FoodMeter({
   meter,
@@ -40,8 +41,8 @@ export function FoodMeter({
     >
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2.5 font-medium">
-          <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15 text-lg">
-            🍜
+          <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15">
+            <FoodIcon className="h-5 w-5 text-accent" />
           </span>
           Food &amp; Drinks
         </span>

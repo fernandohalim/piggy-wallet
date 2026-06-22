@@ -14,6 +14,7 @@ import { BudgetCard } from "@/components/budgets/BudgetCard";
 import { BudgetEditor } from "@/components/budgets/BudgetEditor";
 import { FoodMeter } from "@/components/budgets/FoodMeter";
 import { FoodBudgetEditor } from "@/components/budgets/FoodBudgetEditor";
+import { FoodIcon } from "@/components/ui/Icons";
 
 export default function BudgetsPage() {
   const [nowMs] = useState(() => Date.now());
@@ -96,8 +97,8 @@ export default function BudgetsPage() {
           className="w-full text-left rounded-card bg-surface border border-dashed border-border p-4 flex items-center justify-between hover:border-primary/50 transition-colors"
         >
           <span className="flex items-center gap-2.5 font-medium">
-            <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15 text-lg">
-              🍜
+            <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15">
+              <FoodIcon className="h-5 w-5 text-accent" />
             </span>
             Food &amp; Drinks
           </span>

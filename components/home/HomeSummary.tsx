@@ -6,6 +6,7 @@ import { currentCycle } from "@/lib/budget";
 import { computeStreak } from "@/lib/streak";
 import { dayKey } from "@/lib/date";
 import { formatIDR } from "@/lib/format";
+import { FlameIcon, TrophyIcon } from "../ui/Icons";
 
 export function HomeSummary() {
   const [nowMs] = useState(() => Date.now());
@@ -33,7 +34,8 @@ export function HomeSummary() {
       {streak.current > 0 && (
         <div className="flex items-center justify-between rounded-card bg-primary-soft px-4 py-2.5">
           <span className="flex items-center gap-2 text-primary-dark font-medium">
-            <span className="text-lg">🔥</span> {streak.current}-day streak
+            <FlameIcon className="h-5 w-5 text-accent" /> {streak.current}-day
+            streak
           </span>
           {!streak.loggedToday ? (
             <span className="text-xs text-primary-dark">
@@ -41,7 +43,8 @@ export function HomeSummary() {
             </span>
           ) : streak.milestone ? (
             <span className="text-xs text-primary-dark">
-              🏆 {streak.milestone}-day badge
+              <TrophyIcon className="inline h-3.5 w-3.5 mr-0.5 align-[-2px]" />
+              {streak.milestone}-day badge
             </span>
           ) : null}
         </div>

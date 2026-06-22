@@ -11,17 +11,7 @@ import {
   type CategoryId,
 } from "@/lib/types";
 import { formatIDR } from "@/lib/format";
-
-const COLORS: Record<CategoryId, string> = {
-  food: "#5B5BD6",
-  groceries: "#20C9A6",
-  transport: "#54B8F0",
-  shopping: "#F5A623",
-  bills: "#8B5CF6",
-  entertainment: "#EF5A6F",
-  health: "#F472B6",
-  other: "#94A3B8",
-};
+import { categoryColor, CategoryIcon, PieIcon } from "../ui/Icons";
 
 export function SpendingDonut() {
   const [nowMs] = useState(() => Date.now());
@@ -56,7 +46,8 @@ export function SpendingDonut() {
       <section className="rounded-card bg-surface border border-border shadow-card p-5">
         <h2 className="text-lg font-semibold mb-1">Where it goes</h2>
         <p className="text-sm text-muted py-8 text-center">
-          No spending this cycle yet. Add an expense to see the breakdown. 🥧
+          <PieIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
+          No spending this cycle yet. Add an expense to see the breakdown.
         </p>
       </section>
     );
@@ -94,7 +85,7 @@ export function SpendingDonut() {
                 {data.slices.map((s) => (
                   <Cell
                     key={s.id}
-                    fill={COLORS[s.id]}
+                    fill={categoryColor(s.id)}
                     opacity={active && active !== s.id ? 0.3 : 1}
                   />
                 ))}
@@ -122,11 +113,11 @@ export function SpendingDonut() {
                     active === s.id ? "bg-background" : ""
                   }`}
                 >
-                  <span
-                    className="h-2.5 w-2.5 rounded-full shrink-0"
-                    style={{ backgroundColor: COLORS[s.id] }}
+                  <CategoryIcon
+                    id={s.id}
+                    className="h-4 w-4 shrink-0"
+                    style={{ color: categoryColor(s.id) }}
                   />
-                  <span className="text-base">{categoryIcon(s.id)}</span>
                   <span className="flex-1 min-w-0 truncate text-sm">
                     {s.label}
                   </span>

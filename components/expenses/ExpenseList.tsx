@@ -4,6 +4,7 @@ import { listExpenses } from "@/lib/db/repository";
 import { dayKey, dayLabel, timeInputValue } from "@/lib/date";
 import { categoryIcon, categoryLabel, type Expense } from "@/lib/types";
 import { formatIDR } from "@/lib/format";
+import { categoryColor, CategoryIcon, EditIcon } from "../ui/Icons";
 
 export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
   const expenses = useLiveQuery(() => listExpenses(), []) ?? [];
@@ -11,7 +12,7 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
   if (expenses.length === 0) {
     return (
       <div className="rounded-card bg-surface border border-dashed border-border p-10 text-center">
-        <p className="text-3xl mb-2">📝</p>
+        <EditIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
         <p className="text-muted text-sm">
           No expenses yet.
           <br />
@@ -55,8 +56,14 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
               onClick={() => onEdit(e)}
               className="w-full flex items-center gap-3 rounded-card bg-surface border border-border shadow-card px-3.5 py-3 text-left transition-transform active:scale-[0.99]"
             >
-              <span className="grid place-items-center h-10 w-10 shrink-0 rounded-full bg-primary-soft text-xl">
-                {categoryIcon(e.categoryId)}
+              <span
+                className="grid place-items-center h-10 w-10 shrink-0 rounded-full"
+                style={{
+                  backgroundColor: `${categoryColor(e.categoryId)}1A`,
+                  color: categoryColor(e.categoryId),
+                }}
+              >
+                <CategoryIcon id={e.categoryId} className="h-5 w-5" />
               </span>
               <span className="flex-1 min-w-0">
                 <span className="block font-medium truncate">

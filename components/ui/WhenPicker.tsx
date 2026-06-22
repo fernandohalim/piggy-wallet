@@ -10,6 +10,7 @@ import {
   timeInputValue,
 } from "@/lib/date";
 import { Dropdown } from "./Dropdown";
+import { CalendarIcon } from "./Icons";
 
 const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 const MONTHS = [
@@ -46,7 +47,7 @@ export function WhenPicker({
         <span>
           {dayLabel(value)}, {timeInputValue(value)}
         </span>
-        <span className="text-muted">🗓️</span>
+        <CalendarIcon className="h-5 w-5 text-muted" />
       </button>
       {open && (
         <WhenModal

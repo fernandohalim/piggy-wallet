@@ -1,6 +1,7 @@
 "use client";
 import { categoryIcon, categoryLabel, type CategoryId } from "@/lib/types";
 import { formatIDR } from "@/lib/format";
+import { categoryColor, CategoryIcon } from "../ui/Icons";
 
 export function BudgetCard({
   categoryId,
@@ -26,8 +27,14 @@ export function BudgetCard({
     >
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2.5 font-medium min-w-0">
-          <span className="grid place-items-center h-9 w-9 shrink-0 rounded-full bg-primary-soft text-lg">
-            {categoryIcon(categoryId)}
+          <span
+            className="grid place-items-center h-9 w-9 shrink-0 rounded-full"
+            style={{
+              backgroundColor: `${categoryColor(categoryId)}1A`,
+              color: categoryColor(categoryId),
+            }}
+          >
+            <CategoryIcon id={categoryId} className="h-5 w-5" />
           </span>
           <span className="truncate">{categoryLabel(categoryId)}</span>
         </span>

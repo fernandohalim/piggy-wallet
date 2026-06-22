@@ -11,6 +11,8 @@ import { useOnline } from "@/lib/hooks/useOnline";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { GoogleIcon } from "@/components/ui/GoogleIcon";
+import { PiggyIcon } from "@/components/ui/Icons";
+import Image from "next/image";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -54,7 +56,13 @@ export default function SignupPage() {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-1">
-        <div className="text-4xl">🐷</div>
+        <Image
+          src="/icons/icon-512.png"
+          alt="Icon"
+          width={100}
+          height={100}
+          className="mx-auto block mb-4"
+        />
         <h1 className="text-2xl font-semibold text-ink">Create your wallet</h1>
         <p className="text-sm text-muted">Start tracking in seconds</p>
       </div>
