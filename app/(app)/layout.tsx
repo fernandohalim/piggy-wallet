@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { Loading } from "@/components/ui/Loading";
+import { SyncManager } from "@/components/sync/SyncManager";
+import { BottomNav } from "@/components/nav/BottomNav";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -15,5 +17,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (loading) return <Loading />;
   if (!user) return null;
 
-  return <>{children}</>;
+  return (
+    <>
+      <SyncManager />
+      {children}
+      <BottomNav />
+    </>
+  );
 }
