@@ -71,7 +71,10 @@ export function SpendingDonut() {
     <section className="rounded-card bg-surface border border-border shadow-card p-5">
       <h2 className="text-lg font-semibold mb-3">Where it goes</h2>
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-        <div className="relative mx-auto sm:mx-0 h-44 w-44 shrink-0">
+        <div
+          className="relative mx-auto sm:mx-0 h-44 w-44 shrink-0"
+          onMouseDown={(e) => e.preventDefault()}
+        >
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -86,6 +89,7 @@ export function SpendingDonut() {
                 endAngle={-270}
                 onMouseEnter={(_, i) => setActive(data.slices[i].id)}
                 onMouseLeave={() => setActive(null)}
+                isAnimationActive={false}
               >
                 {data.slices.map((s) => (
                   <Cell

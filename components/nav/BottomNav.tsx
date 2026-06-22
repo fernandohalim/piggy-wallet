@@ -51,18 +51,19 @@ export function BottomNav() {
     <>
       <nav className="fixed inset-x-0 bottom-0 z-40 pointer-events-none">
         <div className="mx-auto max-w-md sm:max-w-lg px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-          <div className="pointer-events-auto relative flex items-stretch rounded-3xl border border-border bg-surface/95 shadow-card backdrop-blur-xl">
+          <div className="pointer-events-auto relative flex items-stretch rounded-3xl border border-border bg-surface/95 shadow-card backdrop-blur-xl overflow-visible">
             <div className="flex flex-1">{LEFT.map(Tab)}</div>
-            <div className="w-16 shrink-0" aria-hidden />
-            <div className="flex flex-1">{RIGHT.map(Tab)}</div>
+            <div className="relative flex shrink-0 w-14">
+              <button
+                onClick={() => setAdding(true)}
+                aria-label="Add expense"
+                className="absolute left-1/2 -translate-x-1/2 -top-6 grid place-items-center h-14 w-14 rounded-full bg-gradient-to-b from-primary to-primary-dark text-white text-3xl leading-none shadow-pop ring-4 ring-surface transition-transform active:scale-95"
+              >
+                +
+              </button>
+            </div>
 
-            <button
-              onClick={() => setAdding(true)}
-              aria-label="Add expense"
-              className="absolute left-1/2 -top-6 -translate-x-1/2 grid place-items-center h-14 w-14 rounded-full bg-gradient-to-b from-primary to-primary-dark text-white text-3xl leading-none shadow-pop ring-4 ring-surface transition-transform active:scale-95"
-            >
-              +
-            </button>
+            <div className="flex flex-1">{RIGHT.map(Tab)}</div>
           </div>
         </div>
       </nav>
