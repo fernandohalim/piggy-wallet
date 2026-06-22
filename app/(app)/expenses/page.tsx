@@ -9,7 +9,7 @@ export default function ExpensesPage() {
   const [editing, setEditing] = useState<Expense | null>(null);
 
   return (
-    <main className="min-h-dvh max-w-md sm:max-w-lg mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-6">
+    <main className="min-h-dvh max-w-md sm:max-w-lg mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-6 lg:pb-12">
       <header>
         <h1 className="text-2xl font-semibold">Expenses</h1>
         <p className="text-sm text-muted">Every record, grouped by day.</p>

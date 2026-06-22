@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { addExpense, updateExpense, deleteExpense } from "@/lib/db/repository";
 import { CurrencyInput } from "@/components/ui/CurrencyInput";
-import { CategoryPicker } from "./CategoryPicker";
+import { CategorySelect } from "./CategorySelect";
 import { TextField } from "@/components/ui/TextField";
 import { Button } from "@/components/ui/Button";
 import type { CategoryId, Expense } from "@/lib/types";
@@ -76,7 +76,7 @@ export function ExpenseForm({
       />
       <div className="space-y-1.5">
         <label className="block text-sm font-medium text-ink">Category</label>
-        <CategoryPicker value={categoryId} onChange={setCategoryId} />
+        <CategorySelect value={categoryId} onChange={setCategoryId} />
       </div>
       <TextField
         label="Name (optional)"

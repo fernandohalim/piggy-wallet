@@ -5,6 +5,7 @@ import { useAuth } from "@/components/auth/AuthProvider";
 import { Loading } from "@/components/ui/Loading";
 import { SyncManager } from "@/components/sync/SyncManager";
 import { BottomNav } from "@/components/nav/BottomNav";
+import { Sidebar } from "@/components/nav/Sidebar";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -20,7 +21,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SyncManager />
-      {children}
+      <Sidebar />
+      <div className="lg:pl-60">{children}</div>
       <BottomNav />
     </>
   );

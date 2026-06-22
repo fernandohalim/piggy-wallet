@@ -82,7 +82,7 @@ export default function BudgetsPage() {
   if (!data) return <main className="p-6 text-muted">Loading budgets…</main>;
 
   return (
-    <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4">
+    <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4 lg:pb-12">
       <header>
         <h1 className="text-2xl font-semibold">Budgets</h1>
         <p className="text-sm text-muted">
