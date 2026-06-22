@@ -27,8 +27,12 @@ export function Sheet({
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative w-full sm:max-w-md bg-background rounded-t-2xl sm:rounded-2xl p-5 max-h-[90dvh] overflow-y-auto">
+      <div
+        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl p-5 pt-3 max-h-[90dvh] overflow-y-auto shadow-pop">
+        <div className="sm:hidden mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">{title}</h2>
           <button

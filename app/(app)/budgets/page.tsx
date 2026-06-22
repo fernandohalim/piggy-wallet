@@ -81,7 +81,7 @@ export default function BudgetsPage() {
   if (!data) return <main className="p-6 text-muted">Loading budgets…</main>;
 
   return (
-    <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-24 space-y-4">
+    <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4">
       <header>
         <h1 className="text-2xl font-semibold">Budgets</h1>
         <p className="text-sm text-muted">
@@ -93,12 +93,17 @@ export default function BudgetsPage() {
       ) : (
         <button
           onClick={() => setFoodOpen(true)}
-          className="w-full text-left rounded-card bg-surface border border-dashed border-border p-4 flex items-center justify-between"
+          className="w-full text-left rounded-card bg-surface border border-dashed border-border p-4 flex items-center justify-between hover:border-primary/50 transition-colors"
         >
-          <span className="flex items-center gap-2 font-medium">
-            <span className="text-xl">🍜</span> Food &amp; Drinks
+          <span className="flex items-center gap-2.5 font-medium">
+            <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15 text-lg">
+              🍜
+            </span>
+            Food &amp; Drinks
           </span>
-          <span className="text-sm text-primary">Set daily budget</span>
+          <span className="text-sm font-medium text-primary">
+            Set daily budget
+          </span>
         </button>
       )}
       <div className="grid gap-2 sm:grid-cols-2">

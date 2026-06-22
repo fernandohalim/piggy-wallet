@@ -17,10 +17,10 @@ export function CategoryPicker({
             key={c.id}
             type="button"
             onClick={() => onChange(c.id)}
-            className={`flex flex-col items-center gap-1 py-3 rounded-card border text-xs transition ${
+            className={`flex flex-col items-center gap-1 py-3 rounded-card border text-xs transition-all ${
               active
-                ? "border-primary bg-primary-soft text-primary-dark"
-                : "border-border bg-surface text-muted"
+                ? "border-primary bg-primary-soft text-primary-dark shadow-card scale-[1.03]"
+                : "border-border bg-surface text-muted hover:border-primary/40"
             }`}
           >
             <span className="text-xl">{c.icon}</span>

@@ -9,6 +9,7 @@ import {
   setTimePart,
   timeInputValue,
 } from "@/lib/date";
+import { Dropdown } from "./Dropdown";
 
 const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
 const MONTHS = [
@@ -173,20 +174,49 @@ function WhenModal({
         </div>
 
         <div className="flex items-center gap-2">
-          <input
-            type="time"
-            value={timeInputValue(value)}
-            onChange={(e) =>
-              e.target.value && onChange(setTimePart(value, e.target.value))
-            }
-            className="flex-1 h-12 px-4 rounded-card bg-surface border border-border text-ink focus:outline-none focus:ring-2 focus:ring-primary/40"
-          />
+          <div className="flex-1">
+            <Dropdown
+              value={sel.getHours()}
+              placement="up"
+              onChange={(h) =>
+                onChange(
+                  setTimePart(
+                    value,
+                    `${String(h).padStart(2, "0")}:${String(sel.getMinutes()).padStart(2, "0")}`,
+                  ),
+                )
+              }
+              options={Array.from({ length: 24 }, (_, h) => ({
+                value: h,
+                label: String(h).padStart(2, "0"),
+              }))}
+            />
+          </div>
+          <span className="text-muted font-medium">:</span>
+          <div className="flex-1">
+            <Dropdown
+              value={sel.getMinutes()}
+              placement="up"
+              onChange={(m) =>
+                onChange(
+                  setTimePart(
+                    value,
+                    `${String(sel.getHours()).padStart(2, "0")}:${String(m).padStart(2, "0")}`,
+                  ),
+                )
+              }
+              options={Array.from({ length: 60 }, (_, m) => ({
+                value: m,
+                label: String(m).padStart(2, "0"),
+              }))}
+            />
+          </div>
           <button
             type="button"
             onClick={() =>
               onChange(setTimePart(value, timeInputValue(Date.now())))
             }
-            className="text-sm text-primary font-medium px-2"
+            className="text-sm text-primary font-medium px-2 shrink-0"
           >
             Now
           </button>

@@ -10,11 +10,15 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
 
   if (expenses.length === 0) {
     return (
-      <p className="text-center text-muted py-16">
-        No expenses yet.
-        <br />
-        Tap “Add expense” to log your first one.
-      </p>
+      <div className="rounded-card bg-surface border border-dashed border-border p-10 text-center">
+        <p className="text-3xl mb-2">📝</p>
+        <p className="text-muted text-sm">
+          No expenses yet.
+          <br />
+          Tap the <span className="text-primary font-semibold">+</span> button
+          to log your first one.
+        </p>
+      </div>
     );
   }
 
@@ -40,16 +44,20 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
       {groups.map((g) => (
         <div key={g.key} className="space-y-2">
           <div className="flex items-center justify-between px-1">
-            <span className="text-sm font-medium text-muted">{g.label}</span>
-            <span className="text-sm text-muted">{formatIDR(g.total)}</span>
+            <span className="text-sm font-semibold text-ink">{g.label}</span>
+            <span className="text-xs font-medium text-muted bg-surface border border-border rounded-full px-2.5 py-0.5">
+              {formatIDR(g.total)}
+            </span>
           </div>
           {g.items.map((e) => (
             <button
               key={e.id}
               onClick={() => onEdit(e)}
-              className="w-full flex items-center gap-3 rounded-card bg-surface border border-border px-4 py-3 text-left"
+              className="w-full flex items-center gap-3 rounded-card bg-surface border border-border shadow-card px-3.5 py-3 text-left transition-transform active:scale-[0.99]"
             >
-              <span className="text-xl">{categoryIcon(e.categoryId)}</span>
+              <span className="grid place-items-center h-10 w-10 shrink-0 rounded-full bg-primary-soft text-xl">
+                {categoryIcon(e.categoryId)}
+              </span>
               <span className="flex-1 min-w-0">
                 <span className="block font-medium truncate">
                   {e.name ?? categoryLabel(e.categoryId)}
@@ -59,7 +67,9 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
                   {timeInputValue(e.occurredAt)}
                 </span>
               </span>
-              <span className="font-medium">{formatIDR(e.amount)}</span>
+              <span className="font-semibold tabular-nums">
+                {formatIDR(e.amount)}
+              </span>
             </button>
           ))}
         </div>

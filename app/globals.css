@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* palette — kept */
   --color-background: #F5F4FB;
   --color-surface: #FFFFFF;
   --color-ink: #1E1B2E;
@@ -12,13 +13,32 @@
   --color-accent: #F5A623;
   --color-danger: #EF5A6F;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --radius-card: 1rem;
+  /* additions — harmonizing, for charts/positive states */
+  --color-mint: #20C9A6;
+  --color-mint-soft: #D6F6EF;
+  --color-sky: #54B8F0;
+  --color-grape: #8B5CF6;
+
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-jakarta), ui-sans-serif, sans-serif;
+
+  --radius-card: 1.15rem;
+
+  --shadow-card: 0 1px 2px rgba(30,27,46,0.04), 0 6px 20px rgba(91,91,214,0.07);
+  --shadow-pop: 0 10px 34px rgba(91,91,214,0.22);
 }
 
 html, body {
-  background-color: var(--color-background);
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(245,166,35,0.08), transparent 55%),
+    radial-gradient(120% 90% at 0% 0%, rgba(91,91,214,0.10), transparent 50%),
+    var(--color-background);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.01em;
 }

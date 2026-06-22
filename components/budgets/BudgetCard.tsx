@@ -22,30 +22,36 @@ export function BudgetCard({
   return (
     <button
       onClick={onEdit}
-      className="w-full text-left rounded-card bg-surface border border-border p-4 space-y-2"
+      className="w-full text-left rounded-card bg-surface border border-border shadow-card p-4 space-y-3 transition-transform active:scale-[0.99]"
     >
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-2 font-medium">
-          <span className="text-xl">{categoryIcon(categoryId)}</span>
-          {categoryLabel(categoryId)}
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex items-center gap-2.5 font-medium min-w-0">
+          <span className="grid place-items-center h-9 w-9 shrink-0 rounded-full bg-primary-soft text-lg">
+            {categoryIcon(categoryId)}
+          </span>
+          <span className="truncate">{categoryLabel(categoryId)}</span>
         </span>
         {hasCap ? (
-          <span className="text-sm text-muted">
+          <span className="text-sm text-muted shrink-0 tabular-nums">
             {formatIDR(spent)} / {formatIDR(cap)}
           </span>
         ) : (
-          <span className="text-sm text-primary">Set budget</span>
+          <span className="text-sm font-medium text-primary shrink-0">
+            Set budget
+          </span>
         )}
       </div>
       {hasCap && (
         <>
           <div className="h-2 rounded-full bg-border overflow-hidden">
             <div
-              className={`h-full ${barColor}`}
+              className={`h-full rounded-full ${barColor} transition-all`}
               style={{ width: `${pct}%` }}
             />
           </div>
-          <p className={`text-xs ${over ? "text-danger" : "text-muted"}`}>
+          <p
+            className={`text-xs ${over ? "text-danger font-medium" : "text-muted"}`}
+          >
             {over
               ? `${formatIDR(spent - cap)} over budget`
               : `${formatIDR(cap - spent)} left`}

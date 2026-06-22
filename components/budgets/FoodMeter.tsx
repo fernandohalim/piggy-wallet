@@ -36,18 +36,21 @@ export function FoodMeter({
   return (
     <button
       onClick={onEdit}
-      className="w-full text-left rounded-card bg-surface border border-border p-4 space-y-3"
+      className="w-full text-left rounded-card bg-surface border border-border shadow-card p-4 space-y-3 transition-transform active:scale-[0.99]"
     >
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-2 font-medium">
-          <span className="text-xl">🍜</span> Food &amp; Drinks
+      <div className="flex items-center justify-between gap-2">
+        <span className="flex items-center gap-2.5 font-medium">
+          <span className="grid place-items-center h-9 w-9 rounded-full bg-accent/15 text-lg">
+            🍜
+          </span>
+          Food &amp; Drinks
         </span>
         <span className="text-xs text-muted">{dailyLabel}</span>
       </div>
 
       <div>
         <p
-          className={`text-2xl font-semibold ${over ? "text-danger" : "text-ink"}`}
+          className={`text-2xl font-bold ${over ? "text-danger" : "text-ink"}`}
         >
           {over
             ? `${formatIDR(-meter.remainingToday)} over today`
@@ -61,7 +64,7 @@ export function FoodMeter({
 
       <div className="h-2.5 rounded-full bg-border overflow-hidden">
         <div
-          className={`h-full ${over ? "bg-danger" : "bg-primary"}`}
+          className={`h-full rounded-full ${over ? "bg-danger" : "bg-primary"} transition-all`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -77,16 +80,16 @@ export function FoodMeter({
       )}
 
       <div className="grid grid-cols-2 gap-2 pt-1 text-xs">
-        <div className="rounded-card bg-background p-2.5">
+        <div className="rounded-xl bg-background p-2.5">
           <p className="text-muted">This week</p>
-          <p className="font-medium text-sm">
+          <p className="font-semibold text-sm tabular-nums">
             {formatIDR(meter.weekSpent)} / {formatIDR(meter.weeklyProjection)}
           </p>
         </div>
-        <div className="rounded-card bg-background p-2.5">
+        <div className="rounded-xl bg-background p-2.5">
           <p className="text-muted">This cycle (projected)</p>
           <p
-            className={`font-medium text-sm ${cycleOver ? "text-danger" : ""}`}
+            className={`font-semibold text-sm tabular-nums ${cycleOver ? "text-danger" : ""}`}
           >
             {formatIDR(meter.cycleSpent)} / {formatIDR(meter.monthlyProjection)}
           </p>
@@ -94,7 +97,7 @@ export function FoodMeter({
       </div>
       <div className="h-1.5 rounded-full bg-border overflow-hidden">
         <div
-          className={`h-full ${cycleOver ? "bg-danger" : "bg-primary"}`}
+          className={`h-full rounded-full ${cycleOver ? "bg-danger" : "bg-primary"} transition-all`}
           style={{ width: `${cyclePct}%` }}
         />
       </div>
