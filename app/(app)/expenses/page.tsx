@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Sheet } from "@/components/ui/Sheet";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ExpenseForm } from "@/components/expenses/ExpenseForm";
@@ -17,6 +17,7 @@ import { formatIDR } from "@/lib/format";
 import { dayKey } from "@/lib/date";
 import { TrashIcon, CategoryIcon, categoryColor } from "@/components/ui/Icons";
 import { categoryLabel, type CategoryId, type Expense } from "@/lib/types";
+import { printExpenseReport } from "@/lib/report";
 
 export default function ExpensesPage() {
   const [nowMs] = useState(() => Date.now());
@@ -29,7 +30,7 @@ export default function ExpensesPage() {
   }, []);
 
   const cycleStartDay = data?.cycleStartDay ?? 1;
-  const allExpenses = useMemo(() => data?.expenses ?? [], [data]);
+  const allExpenses = data?.expenses ?? [];
 
   const [filter, setFilter] = useState<ExpenseFilter>(() => {
     const d = new Date();
@@ -49,12 +50,30 @@ export default function ExpensesPage() {
   const cycle = currentCycle(cycleStartDay, nowMs);
   const cycleRangeLabel = cycleLabel(cycle.start, cycle.end);
 
-  const filtered = useMemo(
-    () => filterExpenses(allExpenses, filter, cycleStartDay, nowMs),
-    [allExpenses, filter, cycleStartDay, nowMs],
-  );
+  const periodLabel =
+    filter.period === "cycle"
+      ? cycleRangeLabel
+      : filter.period === "month"
+        ? new Date(filter.monthRef).toLocaleDateString("en-GB", {
+            month: "long",
+            year: "numeric",
+          })
+        : `${new Date(filter.customStart).toLocaleDateString("en-GB", { day: "numeric", month: "short" })} – ${new Date(filter.customEnd).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}`;
+
+  const exportReport = () =>
+    printExpenseReport(filtered, {
+      periodLabel,
+      category: filter.categoryId
+        ? categoryLabel(filter.categoryId)
+        : "All categories",
+      search: filter.search.trim(),
+      total: periodTotal,
+      count: filtered.length,
+    });
+
+  const filtered = filterExpenses(allExpenses, filter, cycleStartDay, nowMs);
   const periodTotal = filtered.reduce((sum, e) => sum + e.amount, 0);
-  const insights = useMemo(() => {
+  const insights = (() => {
     if (filtered.length === 0) return null;
     const days = new Set(filtered.map((e) => dayKey(e.occurredAt)));
     const byCat = new Map<CategoryId, number>();
@@ -69,7 +88,7 @@ export default function ExpensesPage() {
         if (!topCat || total > topCat.total) topCat = { id, total };
     }
     return { avgPerDay: periodTotal / days.size, biggest, topCat };
-  }, [filtered, periodTotal, filter.categoryId]);
+  })();
 
   const filtersActive =
     filter.period !== "cycle" ||
@@ -146,13 +165,35 @@ export default function ExpensesPage() {
             Cancel
           </button>
         ) : (
-          <button
-            onClick={() => setSelecting(true)}
-            aria-label="Select expenses to delete"
-            className="grid place-items-center h-9 w-9 shrink-0 rounded-full border border-border text-muted active:scale-95 transition-transform"
-          >
-            <TrashIcon className="h-5 w-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={exportReport}
+              disabled={filtered.length === 0}
+              aria-label="Export report as PDF"
+              className="grid place-items-center h-9 w-9 shrink-0 rounded-full border border-border text-muted active:scale-95 transition-transform disabled:opacity-40"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </button>
+            <button
+              onClick={() => setSelecting(true)}
+              aria-label="Select expenses to delete"
+              className="grid place-items-center h-9 w-9 shrink-0 rounded-full border border-border text-muted active:scale-95 transition-transform"
+            >
+              <TrashIcon className="h-5 w-5" />
+            </button>
+          </div>
         )}
       </header>
 

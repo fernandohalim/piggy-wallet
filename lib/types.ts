@@ -48,10 +48,13 @@ export interface FoodBudget {
   deleted: boolean;
 }
 
+export type FoodReset = "daily" | "weekly" | "cycle";
+
 export interface Settings {
   id: "settings";         // singleton
   cycleStartDay: number;  // 1..28, your payroll anchor
-  foodRollover: boolean;
+  foodRollover: boolean;  // legacy mirror of foodReset (kept in sync for older clients)
+  foodReset?: FoodReset;  // daily = fixed per day, weekly = Mon-reset, cycle = cycle-reset
   updatedAt: number;
   deleted: boolean;
 }

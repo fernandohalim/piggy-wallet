@@ -70,13 +70,13 @@ export function FoodMeter({
         />
       </div>
 
-      {Math.round(meter.carryIn) !== 0 && (
+      {meter.reset !== "daily" && Math.round(meter.carryIn) !== 0 && (
         <p
           className={`text-xs ${meter.carryIn > 0 ? "text-primary-dark" : "text-danger"}`}
         >
           {meter.carryIn > 0
-            ? `+${formatIDR(meter.carryIn)} rolled over from earlier days`
-            : `${formatIDR(-meter.carryIn)} overspent earlier, trimmed from today`}
+            ? `+${formatIDR(meter.carryIn)} rolled over from earlier this ${meter.reset === "weekly" ? "week" : "cycle"}`
+            : `${formatIDR(-meter.carryIn)} overspent earlier this ${meter.reset === "weekly" ? "week" : "cycle"}, trimmed from today`}
         </p>
       )}
 

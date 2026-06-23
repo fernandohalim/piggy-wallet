@@ -9,6 +9,18 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.6",
+    badge: "Insights & export",
+    badgeColor: "bg-indigo-100 text-indigo-700 border-indigo-200",
+    date: "23 Jun 2026",
+    title: "Know your trend, take it with you",
+    features: [
+      "Month-over-month trend — the home screen now shows your past month's spending against the month before it, at a glance, so you can see whether you're trending up or down independent of your payday cycle.",
+      "PDF expense reports — hit export on the Expenses page to turn whatever you're currently viewing into a clean, neatly formatted PDF, with the filters you used printed right on it. Save it to your phone and read it anywhere.",
+      "Weekly food budgets — the food budget reset is now your choice of daily, weekly, or monthly. Weekly rolls unspent allowance forward through the week and resets every Monday, sitting neatly between a fixed daily allowance and full cycle rollover.",
+    ],
+  },
+  {
     version: "1.5.1",
     badge: "Fixes",
     badgeColor: "bg-slate-100 text-slate-700 border-slate-200",

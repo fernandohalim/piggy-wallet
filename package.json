@@ -1,6 +1,6 @@
 {
   "name": "piggy-wallet",
-  "version": "1.5.1",
+  "version": "1.6",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -12,6 +12,8 @@
     "@serwist/next": "^9.5.11",
     "firebase": "^12.15.0",
     "idb": "^8.0.3",
+    "jspdf": "^4.2.1",
+    "jspdf-autotable": "^5.0.8",
     "next": "16.2.9",
     "react": "19.2.4",
     "react-dom": "19.2.4",

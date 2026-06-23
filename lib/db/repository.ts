@@ -144,18 +144,27 @@ export async function getSettings(): Promise<Settings> {
   const db = await getDB();
   let s = await db.get("settings", "settings");
   if (!s) {
-    s = { id: "settings", cycleStartDay: 1, foodRollover: true, updatedAt: 0, deleted: false };
+    s = { id: "settings", cycleStartDay: 1, foodRollover: true, foodReset: "cycle", updatedAt: 0, deleted: false };
     await db.put("settings", s);
   } else if (s.foodRollover === undefined) {
     s = { ...s, foodRollover: true };   // default-on for pre-1.2 docs
   }
+  if (s.foodReset === undefined) {
+    // derive from the legacy boolean: off → daily, on → cycle (pre-1.6 docs)
+    s = { ...s, foodReset: s.foodRollover === false ? "daily" : "cycle" };
+  }
   return s;
 }
 
-export async function updateSettings(patch: Partial<Pick<Settings, "cycleStartDay" | "foodRollover">>) {
+export async function updateSettings(
+  patch: Partial<Pick<Settings, "cycleStartDay" | "foodRollover" | "foodReset">>,
+) {
   const db = await getDB();
   const current = await getSettings();
-  await db.put("settings", { ...current, ...patch, updatedAt: now() });
+  const next = { ...current, ...patch, updatedAt: now() };
+  // Keep the legacy boolean mirrored so older clients still behave sensibly.
+  if (patch.foodReset !== undefined) next.foodRollover = patch.foodReset !== "daily";
+  await db.put("settings", next);
   await enqueue("settings", "settings");
   emitChange();
 }
