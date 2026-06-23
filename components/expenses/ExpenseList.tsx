@@ -1,24 +1,51 @@
 "use client";
-import { useLiveQuery } from "@/lib/db/useLiveQuery";
-import { listExpenses } from "@/lib/db/repository";
 import { dayKey, dayLabel, timeInputValue } from "@/lib/date";
-import { categoryIcon, categoryLabel, type Expense } from "@/lib/types";
+import { categoryLabel, type Expense } from "@/lib/types";
 import { formatIDR } from "@/lib/format";
-import { categoryColor, CategoryIcon, EditIcon } from "../ui/Icons";
+import {
+  categoryColor,
+  CategoryIcon,
+  CheckIcon,
+  ReceiptIcon,
+  SearchIcon,
+} from "../ui/Icons";
 
-export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
-  const expenses = useLiveQuery(() => listExpenses(), []) ?? [];
-
+export function ExpenseList({
+  expenses,
+  hasAny,
+  selecting,
+  selectedIds,
+  onToggleSelect,
+  onEdit,
+}: {
+  expenses: Expense[];
+  hasAny: boolean;
+  selecting: boolean;
+  selectedIds: Set<string>;
+  onToggleSelect: (id: string) => void;
+  onEdit: (e: Expense) => void;
+}) {
   if (expenses.length === 0) {
     return (
       <div className="rounded-card bg-surface border border-dashed border-border p-10 text-center">
-        <EditIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
-        <p className="text-muted text-sm">
-          No expenses yet.
-          <br />
-          Tap the <span className="text-primary font-semibold">+</span> button
-          to log your first one.
-        </p>
+        {hasAny ? (
+          <>
+            <SearchIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
+            <p className="text-muted text-sm">
+              No expenses match your filters.
+            </p>
+          </>
+        ) : (
+          <>
+            <ReceiptIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
+            <p className="text-muted text-sm">
+              No expenses yet.
+              <br />
+              Tap the <span className="text-primary font-semibold">+</span>{" "}
+              button to log your first one.
+            </p>
+          </>
+        )}
       </div>
     );
   }
@@ -50,35 +77,53 @@ export function ExpenseList({ onEdit }: { onEdit: (e: Expense) => void }) {
               {formatIDR(g.total)}
             </span>
           </div>
-          {g.items.map((e) => (
-            <button
-              key={e.id}
-              onClick={() => onEdit(e)}
-              className="w-full flex items-center gap-3 rounded-card bg-surface border border-border shadow-card px-3.5 py-3 text-left transition-transform active:scale-[0.99]"
-            >
-              <span
-                className="grid place-items-center h-10 w-10 shrink-0 rounded-full"
-                style={{
-                  backgroundColor: `${categoryColor(e.categoryId)}1A`,
-                  color: categoryColor(e.categoryId),
-                }}
+          {g.items.map((e) => {
+            const checked = selectedIds.has(e.id);
+            return (
+              <button
+                key={e.id}
+                onClick={() => (selecting ? onToggleSelect(e.id) : onEdit(e))}
+                className={`w-full flex items-center gap-3 rounded-card border px-3.5 py-3 text-left transition-transform active:scale-[0.99] ${
+                  checked
+                    ? "bg-primary-soft border-primary/40"
+                    : "bg-surface border-border shadow-card"
+                }`}
               >
-                <CategoryIcon id={e.categoryId} className="h-5 w-5" />
-              </span>
-              <span className="flex-1 min-w-0">
-                <span className="block font-medium truncate">
-                  {e.name ?? categoryLabel(e.categoryId)}
+                {selecting && (
+                  <span
+                    className={`grid place-items-center h-5 w-5 shrink-0 rounded-full border ${
+                      checked
+                        ? "bg-primary border-primary text-white"
+                        : "border-border text-transparent"
+                    }`}
+                  >
+                    <CheckIcon className="h-3.5 w-3.5" />
+                  </span>
+                )}
+                <span
+                  className="grid place-items-center h-10 w-10 shrink-0 rounded-full"
+                  style={{
+                    backgroundColor: `${categoryColor(e.categoryId)}1A`,
+                    color: categoryColor(e.categoryId),
+                  }}
+                >
+                  <CategoryIcon id={e.categoryId} className="h-5 w-5" />
                 </span>
-                <span className="block text-xs text-muted">
-                  {e.name ? `${categoryLabel(e.categoryId)} · ` : ""}
-                  {timeInputValue(e.occurredAt)}
+                <span className="flex-1 min-w-0">
+                  <span className="block font-medium truncate">
+                    {e.name ?? categoryLabel(e.categoryId)}
+                  </span>
+                  <span className="block text-xs text-muted">
+                    {e.name ? `${categoryLabel(e.categoryId)} · ` : ""}
+                    {timeInputValue(e.occurredAt)}
+                  </span>
                 </span>
-              </span>
-              <span className="font-semibold tabular-nums">
-                {formatIDR(e.amount)}
-              </span>
-            </button>
-          ))}
+                <span className="font-semibold tabular-nums">
+                  {formatIDR(e.amount)}
+                </span>
+              </button>
+            );
+          })}
         </div>
       ))}
     </div>

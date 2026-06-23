@@ -71,6 +71,20 @@ export async function deleteExpense(id: string) {
   emitChange();
 }
 
+export async function deleteExpenses(ids: string[]) {
+  const db = await getDB();
+  const ts = now();
+  let changed = false;
+  for (const id of ids) {
+    const existing = await db.get("expenses", id);
+    if (!existing) continue;
+    await db.put("expenses", { ...existing, deleted: true, updatedAt: ts });
+    await enqueue("expenses", id);
+    changed = true;
+  }
+  if (changed) emitChange();
+}
+
 // ---------- Simple budgets ----------
 export async function listSimpleBudgets(): Promise<SimpleBudget[]> {
   const db = await getDB();

@@ -57,7 +57,10 @@ export function BottomNav() {
 
   return (
     <>
-      <nav className="fixed inset-x-0 bottom-0 z-40 pointer-events-none lg:hidden">
+      <nav
+        data-bottom-nav
+        className="fixed inset-x-0 bottom-0 z-40 pointer-events-none lg:hidden"
+      >
         <div className="mx-auto max-w-md sm:max-w-lg px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <div className="pointer-events-auto relative flex items-stretch rounded-3xl border border-border bg-surface/95 shadow-card backdrop-blur-xl overflow-visible">
             <div className="flex flex-1">{LEFT.map(Tab)}</div>

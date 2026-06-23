@@ -155,6 +155,28 @@ export const InfoIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const SearchIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="11" cy="11" r="6.5" />
+    <path d="m20 20-3.2-3.2" />
+  </Svg>
+);
+
+export const TrashIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 7h16" />
+    <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+    <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12" />
+    <path d="M10 11v6M14 11v6" />
+  </Svg>
+);
+
+export const CheckIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="m5 12 4.5 4.5L19 7" />
+  </Svg>
+);
+
 /* ---- Category mapping + shared colors (same as the donut) ---- */
 const CATEGORY_ICONS: Record<CategoryId, FC<IconProps>> = {
   food: FoodIcon,

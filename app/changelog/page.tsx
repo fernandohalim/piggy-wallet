@@ -138,15 +138,15 @@ export default function ChangelogPage() {
                       )}
                     </div>
                   </div>
-                  <h3
+                  <span
                     className={`font-bold text-ink ${
                       weight === 1 ? "text-xl" : "text-base"
                     } ${isOpen ? "mb-3" : "mb-0"}`}
                   >
                     {release.title}
-                  </h3>
+                  </span>
                   {isOpen && (
-                    <ul className="space-y-2 animate-fade-in">
+                    <ul className="space-y-2 mt-2 animate-fade-in">
                       {release.features.map((f, idx) => (
                         <li
                           key={idx}
