@@ -59,6 +59,7 @@ export default function BudgetsPage() {
             settings.cycleStartDay,
             foodExpenses,
             nowMs,
+            settings.foodRollover,
           )
         : null;
     } catch (e) {

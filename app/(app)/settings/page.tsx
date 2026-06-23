@@ -60,6 +60,37 @@ export default function SettingsPage() {
         </p>
       </section>
 
+      <section className="rounded-card bg-surface border border-border shadow-card p-4">
+        <button
+          type="button"
+          role="switch"
+          aria-checked={settings.foodRollover}
+          onClick={() =>
+            updateSettings({ foodRollover: !settings.foodRollover })
+          }
+          className="w-full flex items-center justify-between gap-4 text-left"
+        >
+          <span className="min-w-0">
+            <span className="block font-semibold">Roll over food budget</span>
+            <span className="block text-sm text-muted">
+              Carry unspent food allowance from earlier days into today. Turn
+              off to give each day its own fixed allowance.
+            </span>
+          </span>
+          <span
+            className={`relative shrink-0 h-7 w-12 rounded-full transition-colors ${
+              settings.foodRollover ? "bg-primary" : "bg-border"
+            }`}
+          >
+            <span
+              className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
+                settings.foodRollover ? "translate-x-5" : ""
+              }`}
+            />
+          </span>
+        </button>
+      </section>
+
       <button
         onClick={() => setAboutOpen(true)}
         className="w-full flex items-center justify-between rounded-card bg-surface border border-border shadow-card p-4 transition-transform active:scale-[0.99]"

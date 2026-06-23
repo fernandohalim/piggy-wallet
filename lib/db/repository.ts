@@ -130,13 +130,15 @@ export async function getSettings(): Promise<Settings> {
   const db = await getDB();
   let s = await db.get("settings", "settings");
   if (!s) {
-    s = { id: "settings", cycleStartDay: 1, updatedAt: 0, deleted: false };
+    s = { id: "settings", cycleStartDay: 1, foodRollover: true, updatedAt: 0, deleted: false };
     await db.put("settings", s);
+  } else if (s.foodRollover === undefined) {
+    s = { ...s, foodRollover: true };   // default-on for pre-1.2 docs
   }
   return s;
 }
 
-export async function updateSettings(patch: Partial<Pick<Settings, "cycleStartDay">>) {
+export async function updateSettings(patch: Partial<Pick<Settings, "cycleStartDay" | "foodRollover">>) {
   const db = await getDB();
   const current = await getSettings();
   await db.put("settings", { ...current, ...patch, updatedAt: now() });

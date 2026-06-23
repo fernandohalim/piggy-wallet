@@ -11,7 +11,7 @@ export default function ChangelogPage() {
   return (
     <main className="min-h-dvh flex flex-col items-center px-5 pt-6 sm:pt-12 lg:pt-20 pb-20 lg:pb-28">
       <div className="w-full max-w-md sm:max-w-2xl lg:max-w-3xl">
-        <div className="sticky top-0 z-20 -mx-5 px-5 pt-2 pb-4 mb-8 bg-background/85 backdrop-blur-xl border-b border-border flex items-center justify-between">
+        <div className="sticky top-0 z-20 -mx-5 px-5 pt-2 pb-4 mb-8 border-b border-border flex items-center gap-3 sm:gap-4">
           <button
             onClick={() => router.push("/")}
             aria-label="Back home"
@@ -32,7 +32,7 @@ export default function ChangelogPage() {
               />
             </svg>
           </button>
-          <div className="flex flex-col items-end">
+          <div className="flex flex-col">
             <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight">
               Changelog
             </h1>

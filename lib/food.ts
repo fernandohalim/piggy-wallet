@@ -27,6 +27,7 @@ export function computeFoodMeter(
   cycleStartDay: number,
   foodExpenses: Expense[],
   nowMs: number,
+  rollover: boolean = true,
 ): FoodMeter {
   const wd = budget.weekdayAmount ?? 0;
   const we = budget.weekendAmount ?? 0;
@@ -64,7 +65,7 @@ export function computeFoodMeter(
   }
 
   const todayBase = alloc[ti] ?? 0;
-  const carryIn = allocThroughYesterday - spentBefore;
+  const carryIn = rollover ? allocThroughYesterday - spentBefore : 0;
   const todayAvailable = todayBase + carryIn;
   const remainingToday = todayAvailable - spentToday;
 

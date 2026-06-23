@@ -9,6 +9,17 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.2",
+    badge: "Settings",
+    badgeColor: "bg-accent/15 text-amber-700 border-accent/30",
+    date: "23 Jun 2026",
+    title: "Food budgeting, your way",
+    features: [
+      "Rollover toggle for food budgets — a new switch in Settings lets you choose whether unspent food allowance carries forward into today, or each day gets its own fixed amount.",
+      "On by default — nothing changes unless you flip it, so your existing rollover behaviour stays exactly as it was.",
+    ],
+  },
+  {
     version: "1.1",
     badge: "Polish",
     badgeColor: "bg-mint-soft text-teal-700 border-mint/30",

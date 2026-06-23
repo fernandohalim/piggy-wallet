@@ -51,6 +51,7 @@ export interface FoodBudget {
 export interface Settings {
   id: "settings";         // singleton
   cycleStartDay: number;  // 1..28, your payroll anchor
+  foodRollover: boolean;
   updatedAt: number;
   deleted: boolean;
 }
