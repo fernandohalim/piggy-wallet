@@ -9,8 +9,8 @@ export default function ChangelogPage() {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   return (
-    <main className="min-h-dvh flex flex-col items-center px-5 pt-6 pb-20">
-      <div className="w-full max-w-md sm:max-w-2xl">
+    <main className="min-h-dvh flex flex-col items-center px-5 pt-6 sm:pt-12 lg:pt-20 pb-20 lg:pb-28">
+      <div className="w-full max-w-md sm:max-w-2xl lg:max-w-3xl">
         <div className="sticky top-0 z-20 -mx-5 px-5 pt-2 pb-4 mb-8 bg-background/85 backdrop-blur-xl border-b border-border flex items-center justify-between">
           <button
             onClick={() => router.push("/")}
@@ -33,7 +33,7 @@ export default function ChangelogPage() {
             </svg>
           </button>
           <div className="flex flex-col items-end">
-            <h1 className="text-xl font-bold font-display tracking-tight">
+            <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight">
               Changelog
             </h1>
             <span className="text-[10px] font-semibold text-muted uppercase tracking-widest">
@@ -42,7 +42,7 @@ export default function ChangelogPage() {
           </div>
         </div>
 
-        <div className="relative space-y-5 before:absolute before:inset-y-0 before:left-6 before:-translate-x-1/2 before:w-0.5 before:bg-gradient-to-b before:from-primary/40 before:via-border before:to-transparent before:rounded-full">
+        <div className="relative space-y-5 sm:space-y-6 before:absolute before:inset-y-0 before:left-6 before:-translate-x-1/2 before:w-0.5 before:bg-gradient-to-b before:from-primary/40 before:via-border before:to-transparent before:rounded-full">
           {releases.map((release, index) => {
             const parts = release.version.split(".");
             let weight = 3;
@@ -104,7 +104,7 @@ export default function ChangelogPage() {
                         }
                       : undefined
                   }
-                  className={`flex-1 rounded-card bg-surface border border-border shadow-card p-5 transition-all group-hover:-translate-y-0.5 ${
+                  className={`flex-1 rounded-card bg-surface border border-border shadow-card p-5 sm:p-6 transition-all group-hover:-translate-y-0.5 ${
                     weight === 3 ? "cursor-pointer" : "cursor-default"
                   }`}
                 >

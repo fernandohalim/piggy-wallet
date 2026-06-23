@@ -1,0 +1,1 @@
+Piggy Wallet — a simple, offline-first expense tracker

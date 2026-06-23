@@ -5,6 +5,7 @@ import { HomeSummary } from "@/components/home/HomeSummary";
 import { SpendingDonut } from "@/components/home/SpendingDonut";
 import { SpendingHeatmap } from "@/components/home/SpendingHeatmap";
 import { useAuth } from "@/components/auth/AuthProvider";
+import { RecentTransactions } from "@/components/home/RecentTransaction";
 
 export default function HomePage() {
   const online = useOnline();
@@ -26,6 +27,7 @@ export default function HomePage() {
       </header>
 
       <HomeSummary />
+      <RecentTransactions />
       <SpendingDonut />
       <SpendingHeatmap />
 

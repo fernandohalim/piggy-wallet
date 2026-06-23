@@ -10,6 +10,7 @@ const jakarta = Plus_Jakarta_Sans({
 const heading = Outfit({ subsets: ["latin"], variable: "--font-heading" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://piggy-wallet-expense-tracker.vercel.app/"),
   title: "Piggy Wallet",
   description: "A simple offline-first expense tracker.",
   icons: {
@@ -23,6 +24,16 @@ export const metadata: Metadata = {
     capable: true,
     title: "Piggy Wallet",
     statusBarStyle: "default",
+  },
+  openGraph: {
+    title: "Piggy Wallet",
+    description: "A simple, offline-first expense tracker.",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Piggy Wallet",
+    description: "A simple, offline-first expense tracker.",
   },
 };
 
