@@ -72,7 +72,12 @@ export function Sidebar() {
         </nav>
       </aside>
 
-      <Sheet open={adding} onClose={() => setAdding(false)} title="Add expense">
+      <Sheet
+        open={adding}
+        onClose={() => setAdding(false)}
+        title="Add expense"
+        variant="entry"
+      >
         <ExpenseForm onDone={() => setAdding(false)} />
       </Sheet>
     </>

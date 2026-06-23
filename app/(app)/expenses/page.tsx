@@ -19,6 +19,7 @@ export default function ExpensesPage() {
         open={!!editing}
         onClose={() => setEditing(null)}
         title="Edit expense"
+        variant="entry"
       >
         {editing && (
           <ExpenseForm expense={editing} onDone={() => setEditing(null)} />

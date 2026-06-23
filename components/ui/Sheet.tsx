@@ -1,17 +1,23 @@
 "use client";
 import { useEffect } from "react";
+import { useTouchDevice } from "@/lib/hooks/useTouchDevice";
 
 export function Sheet({
   open,
   onClose,
   title,
   children,
+  variant = "default",
 }: {
   open: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+  variant?: "default" | "entry";
 }) {
+  const touch = useTouchDevice();
+  const entry = variant === "entry" && touch;
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -31,19 +37,32 @@ export function Sheet({
         className="absolute inset-0 bg-ink/40 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
-      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl p-5 pt-3 max-h-[90dvh] overflow-y-auto no-scrollbar shadow-pop animate-slide-up sm:animate-scale-in">
-        <div className="sm:hidden mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="text-muted text-2xl leading-none"
-          >
-            ×
-          </button>
+      <div
+        className={`relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl shadow-pop flex flex-col overflow-hidden animate-slide-up sm:animate-scale-in ${
+          entry ? "h-[90dvh] sm:h-auto sm:max-h-[90dvh]" : "max-h-[90dvh]"
+        }`}
+      >
+        <div className="shrink-0 px-5 pt-3">
+          <div className="sm:hidden mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">{title}</h2>
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              className="text-muted text-2xl leading-none"
+            >
+              ×
+            </button>
+          </div>
         </div>
-        {children}
+
+        {entry ? (
+          <div className="flex-1 min-h-0">{children}</div>
+        ) : (
+          <div className="flex-1 overflow-y-auto no-scrollbar px-5 pb-5">
+            {children}
+          </div>
+        )}
       </div>
     </div>
   );
