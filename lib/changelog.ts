@@ -9,6 +9,16 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.5.1",
+    badge: "Fixes",
+    badgeColor: "bg-slate-100 text-slate-700 border-slate-200",
+    date: "23 Jun 2026",
+    title: "A more honest heatmap",
+    features: [
+      "Heatmap label, corrected — on mobile the spending heatmap shows a single month, so it now reads \"Last month\" instead of \"Last 2 months\" (desktop still shows two).",
+    ],
+  },
+  {
     version: "1.5",
     badge: "Filtering",
     badgeColor: "bg-rose-100 text-rose-700 border-rose-200",
