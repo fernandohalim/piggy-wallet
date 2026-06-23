@@ -18,7 +18,7 @@ export default function HomePage() {
   return (
     <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-6 lg:pb-12">
       <header className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Welcome, {name}</h1>
+        <h1 className="text-2xl font-semibold">Welcome, {name}</h1>
         {!online && (
           <span className="text-xs px-2.5 py-1 rounded-full bg-accent/20 text-ink font-medium">
             Offline

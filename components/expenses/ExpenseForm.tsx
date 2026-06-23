@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/Button";
 import { Numpad } from "@/components/ui/Numpad";
 import { WhenPicker } from "../ui/WhenPicker";
 import type { CategoryId, Expense } from "@/lib/types";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 
 const fmt = (v: number | null) =>
   v != null ? new Intl.NumberFormat("id-ID").format(v) : "0";
@@ -31,6 +32,7 @@ export function ExpenseForm({
   );
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(false);
 
   const valid = amount != null && amount > 0 && categoryId != null;
 
@@ -81,6 +83,18 @@ export function ExpenseForm({
     setAmount(n > 0 ? n : null);
   }
 
+  const deleteDialog = expense ? (
+    <ConfirmDialog
+      open={confirmDel}
+      title="Delete expense"
+      message="This expense will be removed. This can't be undone."
+      confirmLabel="Delete"
+      busy={busy}
+      onConfirm={remove}
+      onCancel={() => setConfirmDel(false)}
+    />
+  ) : null;
+
   // ---------- Touch: native-style calculator entry ----------
   if (touch) {
     return (
@@ -107,7 +121,7 @@ export function ExpenseForm({
           {expense && (
             <button
               type="button"
-              onClick={remove}
+              onClick={() => setConfirmDel(true)}
               disabled={busy}
               className="w-full h-11 text-danger text-sm font-medium"
             >
@@ -124,6 +138,7 @@ export function ExpenseForm({
             saveLabel={expense ? "Update" : "Save"}
           />
         </div>
+        {deleteDialog}
       </div>
     );
   }
@@ -155,13 +170,14 @@ export function ExpenseForm({
       </Button>
       {expense && (
         <button
-          onClick={remove}
+          onClick={() => setConfirmDel(true)}
           disabled={busy}
           className="w-full h-12 text-danger font-medium"
         >
           Delete expense
         </button>
       )}
+      {deleteDialog}
     </div>
   );
 }

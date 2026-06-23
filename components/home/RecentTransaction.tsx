@@ -19,7 +19,7 @@ export function RecentTransactions() {
   return (
     <section className="space-y-2">
       <div className="flex items-center justify-between px-1">
-        <h2 className="text-sm font-semibold text-ink">Today’s activity</h2>
+        <span className="text-sm font-semibold text-ink">Today’s activity</span>
         <Link
           href="/expenses"
           className="text-xs font-medium text-muted hover:text-primary transition-colors"

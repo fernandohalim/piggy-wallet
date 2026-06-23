@@ -5,6 +5,7 @@ import { Sheet } from "@/components/ui/Sheet";
 import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import { Button } from "@/components/ui/Button";
 import { categoryLabel, type CategoryId } from "@/lib/types";
+import { ConfirmDialog } from "../ui/ConfirmDialog";
 
 export function BudgetEditor({
   categoryId,
@@ -17,6 +18,7 @@ export function BudgetEditor({
 }) {
   const [amount, setAmount] = useState<number | null>(currentCap);
   const [busy, setBusy] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(false);
 
   if (!categoryId) return null;
   const cat = categoryId;
@@ -59,7 +61,7 @@ export function BudgetEditor({
         </Button>
         {currentCap != null && (
           <button
-            onClick={clear}
+            onClick={() => setConfirmDel(true)}
             disabled={busy}
             className="w-full h-12 text-danger font-medium"
           >
@@ -67,6 +69,15 @@ export function BudgetEditor({
           </button>
         )}
       </div>
+      <ConfirmDialog
+        open={confirmDel}
+        title={`Remove ${categoryLabel(cat)} budget`}
+        message="This budget will be removed. Your expenses stay untouched."
+        confirmLabel="Remove"
+        busy={busy}
+        onConfirm={clear}
+        onCancel={() => setConfirmDel(false)}
+      />
     </Sheet>
   );
 }

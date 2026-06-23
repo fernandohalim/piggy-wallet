@@ -9,6 +9,19 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.4",
+    badge: "Refinements",
+    badgeColor: "bg-violet-100 text-violet-700 border-violet-200",
+    date: "23 Jun 2026",
+    title: "A clearer calendar and safer deletes",
+    features: [
+      "Heatmap, reborn as a calendar — spending now lays out as a proper two-month calendar (one month on mobile), and you can filter it to any single category to see just that pattern.",
+      "Tap a day to dig in — tapping a day on the heatmap reveals its three biggest expenses right below it.",
+      "Budgets that sort themselves — categories you've set sit up top as full progress cards, while the rest tuck into a quiet \"add a budget\" row.",
+      "Safer deletes — removing an expense or a budget now asks for confirmation first, so nothing disappears by accident.",
+    ],
+  },
+  {
     version: "1.3",
     badge: "Insights",
     badgeColor: "bg-sky-100 text-sky-700 border-sky-200",

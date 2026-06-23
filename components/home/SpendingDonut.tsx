@@ -57,7 +57,7 @@ export function SpendingDonut() {
 
   const header = (
     <div className="flex items-center justify-between gap-2 mb-3">
-      <h2 className="text-lg font-semibold">Where it goes</h2>
+      <span className="text-lg font-semibold">Where it goes</span>
       <RangeTabs value={range} onChange={setRange} options={RANGE_OPTIONS} />
     </div>
   );

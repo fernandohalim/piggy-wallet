@@ -7,6 +7,7 @@ import { CurrencyInput } from "@/components/ui/CurrencyInput";
 import { Button } from "@/components/ui/Button";
 import { formatIDR } from "@/lib/format";
 import type { FoodBudget, SplitMode } from "@/lib/types";
+import { ConfirmDialog } from "../ui/ConfirmDialog";
 
 export function FoodBudgetEditor({
   budget,
@@ -30,6 +31,7 @@ export function FoodBudgetEditor({
     budget?.weekendAmount ?? null,
   );
   const [busy, setBusy] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(false);
 
   const wd = mode === "even" ? (daily ?? 0) : (weekday ?? 0);
   const we = mode === "even" ? (daily ?? 0) : (weekend ?? 0);
@@ -130,7 +132,7 @@ export function FoodBudgetEditor({
         </Button>
         {budget && (
           <button
-            onClick={clear}
+            onClick={() => setConfirmDel(true)}
             disabled={busy}
             className="w-full h-12 text-danger font-medium"
           >
@@ -138,6 +140,15 @@ export function FoodBudgetEditor({
           </button>
         )}
       </div>
+      <ConfirmDialog
+        open={confirmDel}
+        title="Remove food budget"
+        message="Your daily food budget will be removed. Your expenses stay untouched."
+        confirmLabel="Remove"
+        busy={busy}
+        onConfirm={clear}
+        onCancel={() => setConfirmDel(false)}
+      />
     </Sheet>
   );
 }

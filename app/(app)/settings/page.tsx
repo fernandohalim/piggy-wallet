@@ -40,7 +40,7 @@ export default function SettingsPage() {
 
       <section className="rounded-card bg-surface border border-border shadow-card p-4 space-y-3">
         <div>
-          <h2 className="font-semibold">Budget cycle start day</h2>
+          <span className="font-semibold">Budget cycle start day</span>
           <p className="text-sm text-muted">
             When your budgets reset each month. Set it to your payday if you
             like.
