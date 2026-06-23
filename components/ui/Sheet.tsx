@@ -38,9 +38,7 @@ export function Sheet({
         onClick={onClose}
       />
       <div
-        className={`relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl shadow-pop flex flex-col overflow-hidden animate-slide-up sm:animate-scale-in ${
-          entry ? "h-[90dvh] sm:h-auto sm:max-h-[90dvh]" : "max-h-[90dvh]"
-        }`}
+        className={`relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl shadow-pop flex flex-col overflow-hidden animate-slide-up sm:animate-scale-in max-h-[90dvh]`}
       >
         <div className="shrink-0 px-5 pt-3">
           <div className="sm:hidden mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />

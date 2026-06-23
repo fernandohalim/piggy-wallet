@@ -3,30 +3,44 @@ import { useState } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { useLiveQuery } from "@/lib/db/useLiveQuery";
 import { getSettings, listExpenses } from "@/lib/db/repository";
-import { currentCycle } from "@/lib/budget";
-import {
-  CATEGORIES,
-  categoryLabel,
-  categoryIcon,
-  type CategoryId,
-} from "@/lib/types";
+import { computeRange, type RangeType } from "@/lib/range";
+import { CATEGORIES, categoryLabel, type CategoryId } from "@/lib/types";
 import { formatIDR } from "@/lib/format";
 import { categoryColor, CategoryIcon, PieIcon } from "../ui/Icons";
+import { RangeTabs } from "../ui/RangeTabs";
+
+const RANGE_OPTIONS: { value: RangeType; label: string }[] = [
+  { value: "cycle", label: "Cycle" },
+  { value: "month", label: "Month" },
+  { value: "week", label: "Week" },
+];
+const RANGE_NOUN: Record<RangeType, string> = {
+  cycle: "cycle",
+  month: "month",
+  week: "week",
+};
 
 export function SpendingDonut() {
   const [nowMs] = useState(() => Date.now());
   const [active, setActive] = useState<CategoryId | null>(null);
+  const [range, setRange] = useState<RangeType>("cycle");
 
   const data = useLiveQuery(async () => {
     const settings = await getSettings();
-    const { start, end } = currentCycle(settings.cycleStartDay, nowMs);
+    const { start, end, label } = computeRange(
+      range,
+      settings.cycleStartDay,
+      nowMs,
+    );
     const expenses = await listExpenses();
     const totals = new Map<CategoryId, number>();
     let total = 0;
+    let count = 0;
     for (const e of expenses) {
       if (e.occurredAt >= start && e.occurredAt < end) {
         totals.set(e.categoryId, (totals.get(e.categoryId) ?? 0) + e.amount);
         total += e.amount;
+        count++;
       }
     }
     const slices = CATEGORIES.map((c) => ({
@@ -36,31 +50,44 @@ export function SpendingDonut() {
     }))
       .filter((s) => s.value > 0)
       .sort((a, b) => b.value - a.value);
-    return { slices, total };
-  }, [nowMs]);
+    return { slices, total, label, count };
+  }, [nowMs, range]);
 
   if (!data) return null;
+
+  const header = (
+    <div className="flex items-center justify-between gap-2 mb-3">
+      <h2 className="text-lg font-semibold">Where it goes</h2>
+      <RangeTabs value={range} onChange={setRange} options={RANGE_OPTIONS} />
+    </div>
+  );
 
   if (data.slices.length === 0) {
     return (
       <section className="rounded-card bg-surface border border-border shadow-card p-5">
-        <h2 className="text-lg font-semibold mb-1">Where it goes</h2>
+        {header}
         <p className="text-sm text-muted py-8 text-center">
           <PieIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
-          No spending this cycle yet. Add an expense to see the breakdown.
+          No spending this {RANGE_NOUN[range]} yet. Add an expense to see the
+          breakdown.
         </p>
       </section>
     );
   }
 
   const activeSlice = active ? data.slices.find((s) => s.id === active) : null;
-  const center = activeSlice
-    ? { title: categoryLabel(activeSlice.id), value: activeSlice.value }
-    : { title: "This cycle", value: data.total };
 
   return (
     <section className="rounded-card bg-surface border border-border shadow-card p-5">
-      <h2 className="text-lg font-semibold mb-3">Where it goes</h2>
+      {header}
+
+      <div className="mb-4">
+        <p className="text-2xl font-bold leading-tight tabular-nums">
+          {formatIDR(data.total)}
+        </p>
+        <p className="text-xs text-muted">{data.label}</p>
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div
           className="relative mx-auto sm:mx-0 h-44 w-44 shrink-0"
@@ -92,11 +119,31 @@ export function SpendingDonut() {
               </Pie>
             </PieChart>
           </ResponsiveContainer>
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-            <span className="text-[11px] text-muted">{center.title}</span>
-            <span className="text-lg font-bold leading-tight">
-              {formatIDR(center.value)}
-            </span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none px-6 text-center">
+            {activeSlice ? (
+              <>
+                <CategoryIcon
+                  id={activeSlice.id}
+                  className="h-5 w-5 mb-1"
+                  style={{ color: categoryColor(activeSlice.id) }}
+                />
+                <span className="text-2xl font-bold leading-none">
+                  {Math.round((activeSlice.value / data.total) * 100)}%
+                </span>
+                <span className="text-[10px] text-muted truncate max-w-full mt-0.5">
+                  {categoryLabel(activeSlice.id)}
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-3xl font-bold leading-none">
+                  {data.count}
+                </span>
+                <span className="text-[11px] text-muted mt-1">
+                  {data.count === 1 ? "expense" : "expenses"}
+                </span>
+              </>
+            )}
           </div>
         </div>
 

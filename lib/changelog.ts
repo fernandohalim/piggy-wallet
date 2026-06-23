@@ -9,6 +9,17 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.3",
+    badge: "Insights",
+    badgeColor: "bg-sky-100 text-sky-700 border-sky-200",
+    date: "23 Jun 2026",
+    title: "See your spending clearly",
+    features: [
+      "Spending donut, reimagined — switch between cycle, month and week, with the total front-and-centre and a cleaner middle that shows your transaction count (and any category's share the moment you tap a slice).",
+      "Tidier expense entry — closed the big empty gap between the date picker and the numpad on mobile, so the keypad sits right where your thumb expects it.",
+    ],
+  },
+  {
     version: "1.2",
     badge: "Settings",
     badgeColor: "bg-accent/15 text-amber-700 border-accent/30",
