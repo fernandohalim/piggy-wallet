@@ -147,6 +147,14 @@ export const PiggyIcon = (p: IconProps) => (
   </svg>
 );
 
+export const InfoIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 11v5" />
+    <path d="M12 8h.01" />
+  </Svg>
+);
+
 /* ---- Category mapping + shared colors (same as the donut) ---- */
 const CATEGORY_ICONS: Record<CategoryId, FC<IconProps>> = {
   food: FoodIcon,
