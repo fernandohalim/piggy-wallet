@@ -130,13 +130,12 @@ export async function getSettings(): Promise<Settings> {
   const db = await getDB();
   let s = await db.get("settings", "settings");
   if (!s) {
-    s = { id: "settings", cycleStartDay: 1, updatedAt: now(), deleted: false };
+    s = { id: "settings", cycleStartDay: 1, updatedAt: 0, deleted: false };
     await db.put("settings", s);
-    await enqueue("settings", "settings");
-    emitChange();
   }
   return s;
 }
+
 export async function updateSettings(patch: Partial<Pick<Settings, "cycleStartDay">>) {
   const db = await getDB();
   const current = await getSettings();

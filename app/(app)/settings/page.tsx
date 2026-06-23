@@ -21,7 +21,7 @@ export default function SettingsPage() {
   const initial = name.charAt(0).toUpperCase();
 
   return (
-    <main className="min-h-dvh max-w-md sm:max-w-lg mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4 lg:pb-12">
+    <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4">
       <h1 className="text-2xl font-semibold">Settings</h1>
 
       <section className="rounded-card bg-surface border border-border shadow-card p-4 flex items-center gap-3">

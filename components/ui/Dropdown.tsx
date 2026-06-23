@@ -50,8 +50,10 @@ export function Dropdown<T extends string | number>({
         </button>
         {open && (
           <div
-            className={`absolute z-50 w-full max-h-64 overflow-y-auto rounded-card bg-surface border border-border shadow-pop py-1 ${
-              placement === "up" ? "bottom-full mb-1" : "mt-1"
+            className={`absolute z-50 w-full max-h-64 overflow-y-auto no-scrollbar rounded-card bg-surface border border-border shadow-pop py-1 animate-scale-in ${
+              placement === "up"
+                ? "bottom-full mb-1 origin-bottom"
+                : "mt-1 origin-top"
             }`}
           >
             {options.map((o) => {

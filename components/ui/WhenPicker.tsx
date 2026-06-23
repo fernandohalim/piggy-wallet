@@ -90,8 +90,11 @@ function WhenModal({
 
   return (
     <div className="fixed inset-0 z-60 flex items-end sm:items-center justify-center">
-      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-      <div className="relative w-full sm:max-w-sm bg-background rounded-t-2xl sm:rounded-2xl p-5 space-y-4 max-h-[90dvh] overflow-y-auto">
+      <div
+        className="absolute inset-0 bg-black/40 animate-fade-in"
+        onClick={onClose}
+      />
+      <div className="relative w-full sm:max-w-sm bg-background rounded-t-2xl sm:rounded-2xl p-5 space-y-4 max-h-[90dvh] overflow-y-auto no-scrollbar animate-slide-up sm:animate-scale-in">
         <div className="flex items-center justify-between">
           <h3 className="font-semibold">Pick date &amp; time</h3>
           <button
@@ -102,7 +105,6 @@ function WhenModal({
             ×
           </button>
         </div>
-
         <div className="flex gap-2">
           <button
             type="button"
@@ -119,7 +121,6 @@ function WhenModal({
             Yesterday
           </button>
         </div>
-
         <div className="flex items-center justify-between">
           <button
             type="button"
@@ -141,7 +142,6 @@ function WhenModal({
             ›
           </button>
         </div>
-
         <div className="grid grid-cols-7 gap-1 text-center">
           {WEEKDAYS.map((w) => (
             <span key={w} className="text-xs text-muted py-1">
@@ -173,7 +173,6 @@ function WhenModal({
             );
           })}
         </div>
-
         <div className="flex items-center gap-2">
           <div className="flex-1">
             <Dropdown
@@ -222,7 +221,6 @@ function WhenModal({
             Now
           </button>
         </div>
-
         <button
           type="button"
           onClick={onClose}

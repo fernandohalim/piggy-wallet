@@ -21,7 +21,7 @@ export function Numpad({
   return (
     <div className="fixed inset-0 z-[70] flex flex-col justify-end">
       <div className="absolute inset-0" onClick={onClose} />
-      <div className="relative bg-background border-t border-border rounded-t-3xl p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-pop">
+      <div className="relative bg-background border-t border-border rounded-t-3xl p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-pop animate-slide-up">
         <div className="mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />
         <div className="grid grid-cols-3 gap-2">
           {KEYS.map((k) => (

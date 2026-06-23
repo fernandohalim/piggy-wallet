@@ -28,10 +28,10 @@ export function Sheet({
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center">
       <div
-        className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
+        className="absolute inset-0 bg-ink/40 backdrop-blur-sm animate-fade-in"
         onClick={onClose}
       />
-      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl p-5 pt-3 max-h-[90dvh] overflow-y-auto shadow-pop">
+      <div className="relative w-full sm:max-w-md bg-background rounded-t-3xl sm:rounded-3xl p-5 pt-3 max-h-[90dvh] overflow-y-auto no-scrollbar shadow-pop animate-slide-up sm:animate-scale-in">
         <div className="sm:hidden mx-auto mb-3 h-1.5 w-10 rounded-full bg-border" />
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">{title}</h2>
