@@ -9,6 +9,21 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.5",
+    badge: "Filtering",
+    badgeColor: "bg-rose-100 text-rose-700 border-rose-200",
+    date: "23 Jun 2026",
+    title: "Find any expense, fast",
+    features: [
+      "Filter by category — a row of colour-coded chips narrows the list to a single category with one tap.",
+      "Filter by period — switch between your payday cycle, any month, or a custom date range of up to one month; future dates and months are kept out of reach.",
+      "Search by name — type to find an expense by its name or category instantly.",
+      "Multi-select delete — tap the trash icon to enter select mode, tick as many expenses as you like, then remove them together with a confirmation step.",
+      "Period insights — a compact strip shows your average per day, biggest single expense, and top category for whatever you're currently viewing.",
+      "Filters that stay put — the filter bar sticks to the top as you scroll, with a one-tap \"Clear filters\" whenever a filter is active.",
+    ],
+  },
+  {
     version: "1.4",
     badge: "Refinements",
     badgeColor: "bg-violet-100 text-violet-700 border-violet-200",
