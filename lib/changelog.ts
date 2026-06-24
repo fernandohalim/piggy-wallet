@@ -9,6 +9,18 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.7",
+    badge: "Recurring",
+    badgeColor: "bg-indigo-100 text-indigo-700 border-indigo-200",
+    date: "24 Jun 2026",
+    title: "Set it once, let it repeat",
+    features: [
+      "Recurring expenses — set up subscriptions, rent, and bills once and Piggy adds them for you automatically each time they come due. Choose monthly on a set day, weekly on a set weekday, or once every payday cycle. Manage them from Settings → Recurring expenses.",
+      "Never miss a cycle — open the app after a while away and every occurrence you missed is back-filled, each dated to the day it was actually due, so your budgets and history stay accurate.",
+      "Auto-added expenses are marked with a 🔁 in your list, and stay fully editable and deletable like any other expense.",
+    ],
+  },
+  {
     version: "1.6.1",
     badge: "Categories",
     badgeColor: "bg-mint-soft text-teal-700 border-mint/30",

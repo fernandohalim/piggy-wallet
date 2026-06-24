@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { useLiveQuery } from "@/lib/db/useLiveQuery";
 import { getSettings, updateSettings } from "@/lib/db/repository";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -7,7 +8,7 @@ import { logOut } from "@/lib/auth";
 import { currentCycle, cycleLabel } from "@/lib/budget";
 import { Button } from "@/components/ui/Button";
 import { Dropdown } from "@/components/ui/Dropdown";
-import { InfoIcon } from "@/components/ui/Icons";
+import { InfoIcon, RepeatIcon } from "@/components/ui/Icons";
 import { AboutModal } from "@/components/about/AboutModal";
 
 export default function SettingsPage() {
@@ -101,6 +102,31 @@ export default function SettingsPage() {
               : "Unspent allowance rolls forward across the whole cycle and resets on your cycle start day."}
         </p>
       </section>
+
+      <Link
+        href="/recurring"
+        className="w-full flex items-center justify-between rounded-card bg-surface border border-border shadow-card p-4 transition-transform active:scale-[0.99]"
+      >
+        <span className="flex items-center gap-3 font-medium">
+          <span className="grid place-items-center h-9 w-9 rounded-full bg-primary-soft text-primary-dark">
+            <RepeatIcon className="h-5 w-5" />
+          </span>
+          Recurring expenses
+        </span>
+        <svg
+          className="h-4 w-4 text-muted"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </Link>
 
       <button
         onClick={() => setAboutOpen(true)}

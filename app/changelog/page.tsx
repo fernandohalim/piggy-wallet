@@ -1,37 +1,17 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { releases } from "@/lib/changelog";
+import { BackLink } from "@/components/ui/BackLink";
 import { PiggyIcon } from "@/components/ui/Icons";
 
 export default function ChangelogPage() {
-  const router = useRouter();
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
   return (
     <main className="min-h-dvh flex flex-col items-center px-5 pt-6 sm:pt-12 lg:pt-20 pb-20 lg:pb-28">
       <div className="w-full max-w-md sm:max-w-2xl lg:max-w-3xl">
-        <div className="sticky top-0 z-20 -mx-5 px-5 pt-2 pb-4 mb-8 border-b border-border flex items-center gap-3 sm:gap-4">
-          <button
-            onClick={() => router.push("/")}
-            aria-label="Back home"
-            className="grid place-items-center h-11 w-11 rounded-full bg-surface border border-border shadow-card text-muted hover:text-primary-dark active:scale-95 transition-all"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2.2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
+        <div className="sticky top-0 z-20 -mx-5 px-5 pt-2 pb-4 mb-8 border-b border-border space-y-2">
+          <BackLink />
           <div className="flex flex-col">
             <h1 className="text-xl sm:text-2xl font-bold font-display tracking-tight">
               Changelog

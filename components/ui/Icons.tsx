@@ -177,6 +177,15 @@ export const CheckIcon = (p: IconProps) => (
   </Svg>
 );
 
+export const RepeatIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M17 2.5 20.5 6 17 9.5" />
+    <path d="M3.5 11V9a3 3 0 0 1 3-3h14" />
+    <path d="M7 21.5 3.5 18 7 14.5" />
+    <path d="M20.5 13v2a3 3 0 0 1-3 3h-14" />
+  </Svg>
+);
+
 /* ---- Category mapping + shared colors (same as the donut) ---- */
 const CATEGORY_ICONS: Record<CategoryId, FC<IconProps>> = {
   food: FoodIcon,

@@ -3,7 +3,7 @@ import { db as firestore } from "@/lib/firebase";
 import { onOutbox } from "@/lib/db/events";
 import { applyRemote, clearOutboxItem, getOutbox, readForSync } from "@/lib/db/repository";
 import type { SyncStore } from "@/lib/db/database";
-import type { Expense, SimpleBudget, FoodBudget, Settings } from "@/lib/types";
+import type { Expense, SimpleBudget, FoodBudget, Settings, RecurringRule } from "@/lib/types";
 
 let unsubscribers: Unsubscribe[] = [];
 let currentUid: string | null = null;
@@ -15,6 +15,7 @@ function refFor(uid: string, store: SyncStore, docId: string) {
     case "simpleBudgets": return doc(firestore, "users", uid, "simpleBudgets", docId);
     case "foodBudget": return doc(firestore, "users", uid, "meta", "foodBudget");
     case "settings": return doc(firestore, "users", uid, "meta", "settings");
+    case "recurringRules": return doc(firestore, "users", uid, "recurringRules", docId);
   }
 }
 
@@ -46,6 +47,9 @@ export function startSync(uid: string) {
     ),
     onSnapshot(collection(firestore, "users", uid, "simpleBudgets"), (snap) =>
       snap.docChanges().forEach((c) => c.type !== "removed" && applyRemote("simpleBudgets", c.doc.data() as SimpleBudget)),
+    ),
+    onSnapshot(collection(firestore, "users", uid, "recurringRules"), (snap) =>
+      snap.docChanges().forEach((c) => c.type !== "removed" && applyRemote("recurringRules", c.doc.data() as RecurringRule)),
     ),
     onSnapshot(collection(firestore, "users", uid, "meta"), (snap) =>
       snap.docChanges().forEach((c) => {
