@@ -28,6 +28,10 @@ function createDb() {
       localCache: persistentLocalCache({
         tabManager: persistentMultipleTabManager(),
       }),
+      // Optional fields (e.g. an expense's recurringRuleId, or a rule's
+      // unused dayOfMonth/weekday) are `undefined`; without this, setDoc
+      // throws on them and aborts the whole outbox flush.
+      ignoreUndefinedProperties: true,
     });
   } catch {
     // Already initialized (e.g. hot reload) — reuse it.

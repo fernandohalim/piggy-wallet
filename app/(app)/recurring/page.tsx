@@ -4,7 +4,6 @@ import { useLiveQuery } from "@/lib/db/useLiveQuery";
 import { getSettings, listRecurringRules } from "@/lib/db/repository";
 import { RecurringRuleEditor } from "@/components/recurring/RecurringRuleEditor";
 import { BackLink } from "@/components/ui/BackLink";
-import { Button } from "@/components/ui/Button";
 import { categoryColor, CategoryIcon, RepeatIcon } from "@/components/ui/Icons";
 import { formatIDR } from "@/lib/format";
 import { categoryLabel, type RecurringRule } from "@/lib/types";
@@ -40,6 +39,15 @@ export default function RecurringPage() {
     setEditorRule(null);
   };
 
+  const addButton = (
+    <button
+      onClick={() => setAdding(true)}
+      className="w-full h-12 rounded-card border border-dashed border-border text-sm font-medium text-primary hover:border-primary/50 transition-colors"
+    >
+      + New recurring expense
+    </button>
+  );
+
   return (
     <main className="min-h-dvh max-w-md sm:max-w-2xl mx-auto px-5 pt-6 sm:pt-10 pb-28 space-y-4 lg:pb-12">
       <header className="space-y-2">
@@ -51,25 +59,20 @@ export default function RecurringPage() {
       </header>
 
       {data.rules.length === 0 ? (
-        <div className="space-y-3">
-          <div className="rounded-card bg-surface border border-dashed border-border p-10 text-center">
-            <RepeatIcon className="h-8 w-8 mx-auto mb-2 text-muted" />
+        <div className="space-y-4">
+          <div className="py-10 text-center">
+            <RepeatIcon className="h-9 w-9 mx-auto mb-2.5 text-muted" />
             <p className="text-muted text-sm">
               No recurring expenses yet.
               <br />
               Add one and it&apos;ll appear on schedule.
             </p>
           </div>
-          <Button onClick={() => setAdding(true)}>+ New recurring expense</Button>
+          {addButton}
         </div>
       ) : (
         <>
-          <button
-            onClick={() => setAdding(true)}
-            className="w-full h-12 rounded-card border border-dashed border-border text-sm font-medium text-primary hover:border-primary/50 transition-colors"
-          >
-            + New recurring expense
-          </button>
+          {addButton}
           <div className="grid gap-2 sm:grid-cols-2">
             {data.rules.map((r) => (
               <button

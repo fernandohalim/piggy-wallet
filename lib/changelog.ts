@@ -9,6 +9,17 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.7.1",
+    badge: "Fixes",
+    badgeColor: "bg-slate-100 text-slate-700 border-slate-200",
+    date: "24 Jun 2026",
+    title: "Recurring, now everywhere",
+    features: [
+      "Recurring expenses sync across your devices — set up a rule on your phone and it shows up on every device you're signed in to, just like the rest of your data.",
+      "Tidier recurring screen — the \"add\" button now looks the same whether you have rules or not, and getting back to Settings works the same way it does on the changelog.",
+    ],
+  },
+  {
     version: "1.7",
     badge: "Recurring",
     badgeColor: "bg-indigo-100 text-indigo-700 border-indigo-200",
