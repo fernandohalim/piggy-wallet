@@ -9,6 +9,16 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    version: "1.6.1",
+    badge: "Categories",
+    badgeColor: "bg-mint-soft text-teal-700 border-mint/30",
+    date: "24 Jun 2026",
+    title: "Categories that fit more of life",
+    features: [
+      "Clearer category names — Transport is now \"Transportation\", Bills becomes \"Bills & Rent\" so your rent has an obvious home, Entertainment reads \"Fun & Entertainment\", and Health is now \"Health & Care\" to cover grooming and personal care alongside medical.",
+    ],
+  },
+  {
     version: "1.6",
     badge: "Insights & export",
     badgeColor: "bg-indigo-100 text-indigo-700 border-indigo-200",

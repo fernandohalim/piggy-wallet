@@ -1,11 +1,11 @@
 export const CATEGORIES = [
   { id: "food", label: "Food & Drinks", icon: "🍜" },
   { id: "groceries", label: "Groceries", icon: "🛒" },
-  { id: "transport", label: "Transport", icon: "🚌" },
+  { id: "transport", label: "Transportation", icon: "🚌" },
   { id: "shopping", label: "Shopping", icon: "🛍️" },
-  { id: "bills", label: "Bills & Utilities", icon: "🧾" },
-  { id: "entertainment", label: "Entertainment", icon: "🎬" },
-  { id: "health", label: "Health", icon: "💊" },
+  { id: "bills", label: "Bills & Rent", icon: "🧾" },
+  { id: "entertainment", label: "Fun & Entertainment", icon: "🎬" },
+  { id: "health", label: "Health & Care", icon: "💊" },
   { id: "other", label: "Other", icon: "📦" },
 ] as const;
 
