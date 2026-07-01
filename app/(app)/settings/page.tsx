@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import { useLiveQuery } from "@/lib/db/useLiveQuery";
 import { getSettings, updateSettings } from "@/lib/db/repository";
 import { useAuth } from "@/components/auth/AuthProvider";
@@ -7,7 +8,7 @@ import { logOut } from "@/lib/auth";
 import { currentCycle, cycleLabel } from "@/lib/budget";
 import { Button } from "@/components/ui/Button";
 import { Dropdown } from "@/components/ui/Dropdown";
-import { InfoIcon, PiggyIcon } from "@/components/ui/Icons";
+import { InfoIcon, RepeatIcon } from "@/components/ui/Icons";
 import { AboutModal } from "@/components/about/AboutModal";
 
 export default function SettingsPage() {
@@ -60,36 +61,72 @@ export default function SettingsPage() {
         </p>
       </section>
 
-      <section className="rounded-card bg-surface border border-border shadow-card p-4">
-        <button
-          type="button"
-          role="switch"
-          aria-checked={settings.foodRollover}
-          onClick={() =>
-            updateSettings({ foodRollover: !settings.foodRollover })
-          }
-          className="w-full flex items-center justify-between gap-4 text-left"
-        >
-          <span className="min-w-0">
-            <span className="block font-semibold">Roll over food budget</span>
-            <span className="block text-sm text-muted">
-              Carry unspent food allowance from earlier days into today. Turn
-              off to give each day its own fixed allowance.
-            </span>
-          </span>
-          <span
-            className={`relative shrink-0 h-7 w-12 rounded-full transition-colors ${
-              settings.foodRollover ? "bg-primary" : "bg-border"
-            }`}
-          >
-            <span
-              className={`absolute top-0.5 left-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
-                settings.foodRollover ? "translate-x-5" : ""
-              }`}
-            />
-          </span>
-        </button>
+      <section className="rounded-card bg-surface border border-border shadow-card p-4 space-y-3">
+        <div>
+          <span className="font-semibold">Food budget resets</span>
+          <p className="text-sm text-muted">
+            How unspent food allowance carries forward before it resets.
+          </p>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {(
+            [
+              ["daily", "Daily"],
+              ["weekly", "Weekly"],
+              ["cycle", "Monthly"],
+            ] as const
+          ).map(([value, label]) => {
+            const active = (settings.foodReset ?? "cycle") === value;
+            return (
+              <button
+                key={value}
+                type="button"
+                onClick={() => updateSettings({ foodReset: value })}
+                aria-pressed={active}
+                className={`h-11 rounded-card border text-sm transition-colors ${
+                  active
+                    ? "border-primary bg-primary-soft text-primary-dark font-medium"
+                    : "border-border text-muted"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <p className="text-sm text-muted">
+          {(settings.foodReset ?? "cycle") === "daily"
+            ? "Each day gets its own fixed allowance — nothing carries over."
+            : (settings.foodReset ?? "cycle") === "weekly"
+              ? "Unspent allowance rolls forward through the week and resets every Monday."
+              : "Unspent allowance rolls forward across the whole cycle and resets on your cycle start day."}
+        </p>
       </section>
+
+      <Link
+        href="/recurring"
+        className="w-full flex items-center justify-between rounded-card bg-surface border border-border shadow-card p-4 transition-transform active:scale-[0.99]"
+      >
+        <span className="flex items-center gap-3 font-medium">
+          <span className="grid place-items-center h-9 w-9 rounded-full bg-primary-soft text-primary-dark">
+            <RepeatIcon className="h-5 w-5" />
+          </span>
+          Recurring expenses
+        </span>
+        <svg
+          className="h-4 w-4 text-muted"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2.2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </Link>
 
       <button
         onClick={() => setAboutOpen(true)}

@@ -1,6 +1,6 @@
 import { getDB, type SyncStore } from "./database";
 import { emitChange, emitOutbox } from "./events";
-import type { CategoryId, Expense, FoodBudget, Settings, SimpleBudget, SplitMode } from "@/lib/types";
+import type { CategoryId, Expense, FoodBudget, Settings, SimpleBudget, SplitMode, RecurringRule, RecurringFrequency } from "@/lib/types";
 
 const now = () => Date.now();
 const uuid = () => crypto.randomUUID();
@@ -24,6 +24,7 @@ export async function addExpense(input: {
   amount: number;
   categoryId: CategoryId;
   occurredAt?: number;
+  recurringRuleId?: string;
 }): Promise<Expense> {
   const db = await getDB();
   const ts = now();
@@ -36,6 +37,7 @@ export async function addExpense(input: {
     createdAt: ts,
     updatedAt: ts,
     deleted: false,
+    recurringRuleId: input.recurringRuleId,
   };
   await db.put("expenses", expense);
   await enqueue("expenses", expense.id);
@@ -105,6 +107,74 @@ export async function removeSimpleBudget(categoryId: CategoryId) {
   emitChange();
 }
 
+// ---------- Recurring rules ----------
+export async function listRecurringRules(): Promise<RecurringRule[]> {
+  const db = await getDB();
+  return (await db.getAll("recurringRules"))
+    .filter((r) => !r.deleted)
+    .sort((a, b) => a.createdAt - b.createdAt);
+}
+
+export async function addRecurringRule(input: {
+  name?: string | null;
+  amount: number;
+  categoryId: CategoryId;
+  frequency: RecurringFrequency;
+  dayOfMonth?: number;
+  weekday?: number;
+  startAt?: number;
+}): Promise<RecurringRule> {
+  const db = await getDB();
+  const ts = now();
+  const rule: RecurringRule = {
+    id: uuid(),
+    name: input.name?.trim() ? input.name.trim() : null,
+    amount: Math.round(input.amount),
+    categoryId: input.categoryId,
+    frequency: input.frequency,
+    dayOfMonth: input.dayOfMonth,
+    weekday: input.weekday,
+    startAt: input.startAt ?? ts,
+    lastRunAt: null,
+    createdAt: ts,
+    updatedAt: ts,
+    deleted: false,
+  };
+  await db.put("recurringRules", rule);
+  await enqueue("recurringRules", rule.id);
+  emitChange();
+  return rule;
+}
+
+export async function updateRecurringRule(
+  id: string,
+  patch: Partial<Pick<RecurringRule,
+    "name" | "amount" | "categoryId" | "frequency" | "dayOfMonth" | "weekday" | "startAt" | "lastRunAt">>,
+) {
+  const db = await getDB();
+  const existing = await db.get("recurringRules", id);
+  if (!existing) return;
+  const updated: RecurringRule = {
+    ...existing,
+    ...patch,
+    name: patch.name !== undefined ? (patch.name?.trim() ? patch.name.trim() : null) : existing.name,
+    amount: patch.amount !== undefined ? Math.round(patch.amount) : existing.amount,
+    updatedAt: now(),
+  };
+  await db.put("recurringRules", updated);
+  await enqueue("recurringRules", id);
+  emitChange();
+}
+
+export async function deleteRecurringRule(id: string) {
+  const db = await getDB();
+  const existing = await db.get("recurringRules", id);
+  if (!existing) return;
+  await db.put("recurringRules", { ...existing, deleted: true, updatedAt: now() });
+  await enqueue("recurringRules", id);
+  emitChange();
+}
+
 // ---------- Food budget (singleton) ----------
 export async function getFoodBudget(): Promise<FoodBudget | undefined> {
   const db = await getDB();
@@ -144,24 +214,33 @@ export async function getSettings(): Promise<Settings> {
   const db = await getDB();
   let s = await db.get("settings", "settings");
   if (!s) {
-    s = { id: "settings", cycleStartDay: 1, foodRollover: true, updatedAt: 0, deleted: false };
+    s = { id: "settings", cycleStartDay: 1, foodRollover: true, foodReset: "cycle", updatedAt: 0, deleted: false };
     await db.put("settings", s);
   } else if (s.foodRollover === undefined) {
     s = { ...s, foodRollover: true };   // default-on for pre-1.2 docs
   }
+  if (s.foodReset === undefined) {
+    // derive from the legacy boolean: off → daily, on → cycle (pre-1.6 docs)
+    s = { ...s, foodReset: s.foodRollover === false ? "daily" : "cycle" };
+  }
   return s;
 }
 
-export async function updateSettings(patch: Partial<Pick<Settings, "cycleStartDay" | "foodRollover">>) {
+export async function updateSettings(
+  patch: Partial<Pick<Settings, "cycleStartDay" | "foodRollover" | "foodReset">>,
+) {
   const db = await getDB();
   const current = await getSettings();
-  await db.put("settings", { ...current, ...patch, updatedAt: now() });
+  const next = { ...current, ...patch, updatedAt: now() };
+  // Keep the legacy boolean mirrored so older clients still behave sensibly.
+  if (patch.foodReset !== undefined) next.foodRollover = patch.foodReset !== "daily";
+  await db.put("settings", next);
   await enqueue("settings", "settings");
   emitChange();
 }
 
 // ---------- Sync-engine-only helpers ----------
-type RemoteDoc = Expense | SimpleBudget | FoodBudget | Settings;
+type RemoteDoc = Expense | SimpleBudget | FoodBudget | Settings | RecurringRule;
 
 export async function applyRemote(store: SyncStore, doc: RemoteDoc) {
   const db = await getDB();
@@ -189,6 +268,11 @@ export async function applyRemote(store: SyncStore, doc: RemoteDoc) {
       if (isNewer(await db.get("settings", "settings"))) { await db.put("settings", d); emitChange(); }
       break;
     }
+    case "recurringRules": {
+      const d = doc as RecurringRule;
+      if (isNewer(await db.get("recurringRules", d.id))) { await db.put("recurringRules", d); emitChange(); }
+      break;
+    }
   }
 }
 
@@ -205,6 +289,7 @@ export async function readForSync(store: SyncStore, docId: string): Promise<Remo
     case "simpleBudgets": return db.get("simpleBudgets", docId);
     case "foodBudget": return db.get("foodBudget", "foodBudget");
     case "settings": return db.get("settings", "settings");
+    case "recurringRules": return db.get("recurringRules", docId);
   }
 }
 

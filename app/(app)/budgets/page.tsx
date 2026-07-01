@@ -26,24 +26,14 @@ export default function BudgetsPage() {
   const [foodOpen, setFoodOpen] = useState(false);
 
   const data = useLiveQuery(async () => {
-    console.log("[budgets] query START");
     const settings = await getSettings();
-    console.log("[budgets] settings:", settings);
     const { start, end } = currentCycle(settings.cycleStartDay, nowMs);
-    console.log("[budgets] cycle:", start, end, new Date(start), new Date(end));
 
     const [expenses, budgets, foodBudget] = await Promise.all([
       listExpenses(),
       listSimpleBudgets(),
       getFoodBudget(),
     ]);
-    console.log(
-      "[budgets] loaded:",
-      expenses.length,
-      budgets.length,
-      "food:",
-      foodBudget,
-    );
 
     const spent = new Map<CategoryId, number>();
     for (const e of expenses) {
@@ -55,21 +45,15 @@ export default function BudgetsPage() {
     for (const b of budgets) caps.set(b.categoryId, b.monthlyAmount);
 
     const foodExpenses = expenses.filter((e) => e.categoryId === "food");
-    let meter = null;
-    try {
-      meter = foodBudget
-        ? computeFoodMeter(
-            foodBudget,
-            settings.cycleStartDay,
-            foodExpenses,
-            nowMs,
-            settings.foodRollover,
-          )
-        : null;
-    } catch (e) {
-      console.error("[budgets] computeFoodMeter THREW:", e);
-    }
-    console.log("[budgets] query DONE, meter:", meter);
+    const meter = foodBudget
+      ? computeFoodMeter(
+          foodBudget,
+          settings.cycleStartDay,
+          foodExpenses,
+          nowMs,
+          settings.foodReset ?? "cycle",
+        )
+      : null;
 
     return {
       start,

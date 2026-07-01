@@ -128,9 +128,14 @@ export function SpendingHeatmap() {
       <div className="flex items-center justify-between mb-3 gap-2">
         <span className="text-lg font-semibold">Spending heatmap</span>
         <span className="text-xs text-muted text-right">
-          {hover
-            ? `${formatIDR(hover.amount)} · ${new Date(hover.ms).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}`
-            : "Last 2 months"}
+          {hover ? (
+            `${formatIDR(hover.amount)} · ${new Date(hover.ms).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}`
+          ) : (
+            <>
+              <span className="sm:hidden">Last month</span>
+              <span className="hidden sm:inline">Last 2 months</span>
+            </>
+          )}
         </span>
       </div>
 

@@ -7,6 +7,7 @@ import {
   CategoryIcon,
   CheckIcon,
   ReceiptIcon,
+  RepeatIcon,
   SearchIcon,
 } from "../ui/Icons";
 
@@ -110,8 +111,11 @@ export function ExpenseList({
                   <CategoryIcon id={e.categoryId} className="h-5 w-5" />
                 </span>
                 <span className="flex-1 min-w-0">
-                  <span className="block font-medium truncate">
+                  <span className="flex items-center gap-1.5 font-medium truncate">
                     {e.name ?? categoryLabel(e.categoryId)}
+                    {e.recurringRuleId && (
+                      <RepeatIcon className="h-3.5 w-3.5 shrink-0 text-muted" />
+                    )}
                   </span>
                   <span className="block text-xs text-muted">
                     {e.name ? `${categoryLabel(e.categoryId)} · ` : ""}
